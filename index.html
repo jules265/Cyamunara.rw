@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyamunara Rwanda - Property Auction Platform</title>
+    <style>
+        :root {
+            --primary-color: #0D8A72;
+            --secondary-color: #F2C94C;
+            --dark-color: #333333;
+            --light-color: #F9F9F9;
+            --accent-color: #D63447;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo span {
+            color: var(--secondary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        .btn {
+            background-color: var(--secondary-color);
+            color: var(--dark-color);
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #e0b93e;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--secondary-color);
+            color: var(--secondary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--secondary-color);
+            color: var(--dark-color);
+        }
+
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+                        url('/api/placeholder/1200/600') no-repeat center center/cover;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 0 1rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin-bottom: 2rem;
+        }
+
+        .search-container {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 800px;
+            margin-top: 2rem;
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+            font-weight: 500;
+        }
+
+        .form-group select, .form-group input, .form-group textarea {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .search-btn {
+            align-self: flex-end;
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .search-btn:hover {
+            background-color: #096b59;
+        }
+
+        .featured {
+            padding: 4rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            font-size: 2rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background-color: var(--primary-color);
+        }
+
+        .properties {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .property-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .property-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .property-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .property-info {
+            padding: 1.5rem;
+        }
+
+        .property-info h3 {
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .property-info .price {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .property-info .location {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .property-info .description {
+            color: #444;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamps: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .property-footer {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .property-footer .btn {
+            flex: 1;
+        }
+
+        .how-it-works {
+            background-color: #f0f8f5;
+            padding: 4rem 1rem;
+        }
+
+        .how-it-works-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            text-align: center;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+        }
+
+        .step h3 {
+            margin-bottom: 1rem;
+        }
+
+        .testimonials {
+            padding: 4rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 4rem;
+            color: #f0f0f0;
+            font-family: Georgia, serif;
+            z-index: 0;
+        }
+
+        .testimonial-text {
+            position: relative;
+            z-index: 1;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .author-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 1rem;
+        }
+
+        .author-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .author-info h4 {
+            margin-bottom: 0.2rem;
+        }
+
+        .author-info p {
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .cta {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 4rem 1rem;
+            text-align: center;
+        }
+
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta p {
+            margin-bottom: 2rem;
+            font-size: 1.2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+        }
+
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 3rem 1rem 1rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            position: relative;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column ul li a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--secondary-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: #444;
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid #444;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        /* Language Switcher */
+        .language-switcher {
+            display: flex;
+            align-items: center;
+        }
+
+        .language-switcher select {
+            background-color: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.3rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .language-switcher select option {
+            background-color: var(--dark-color);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none; /* Hide by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #777;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: var(--dark-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .search-form {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <a href="index.html" class="logo">Cya<span>munara</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#featured">Properties</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="admin.html">Admin</a></li>
+                <li><button class="btn" onclick="openModal('add-product-modal')">Add Property</button></li>
+            </ul>
+            <div class="auth-btns">
+                <button class="btn btn-outline" onclick="openModal('login-modal')">Login</button>
+                <button class="btn" onclick="openModal('register-modal')">Register</button>
+            </div>
+            <button class="mobile-menu-btn">☰</button>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Find Your Property at Rwanda's Premier Auction Platform</h1>
+        <p>Browse thousands of properties available for auction across Rwanda.</p>
+        <div class="search-container">
+            <form class="search-form" id="search-form" onsubmit="return handleSearch(event);">
+                <div class="form-group">
+                    <label for="property-type">Property Type</label>
+                    <select id="property-type">
+                        <option value="">All Types</option>
+                        <option value="residential">Residential</option>
+                        <option value="commercial">Commercial</option>
+                        <option value="land">Land</option>
+                        <option value="industrial">Industrial</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <select id="location">
+                        <option value="">All Locations</option>
+                        <option value="kigali">Kigali</option>
+                        <option value="eastern">Eastern Province</option>
+                        <option value="western">Western Province</option>
+                        <option value="northern">Northern Province</option>
+                        <option value="southern">Southern Province</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="price-range">Price Range</label>
+                    <select id="price-range">
+                        <option value="">Any Price</option>
+                        <option value="0-10000000">Up to 10,000,000 RWF</option>
+                        <option value="10000000-50000000">10-50 Million RWF</option>
+                        <option value="50000000-100000000">50-100 Million RWF</option>
+                        <option value="100000000+">Above 100 Million RWF</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn search-btn">Search</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Modal for Login -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('login-modal')">×</span>
+            <h2>Login</h2>
+            <form class="auth-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <button type="submit" class="btn">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Register -->
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('register-modal')">×</span>
+            <h2>Register</h2>
+            <form class="auth-form">
+                <div class="form-group">
+                    <label for="register-name">Name</label>
+                    <input type="text" id="register-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" required>
+                </div>
+                <button type="submit" class="btn">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Adding Product -->
+    <div id="add-product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('add-product-modal')">×</span>
+            <h2>Add Your Property</h2>
+            <form id="add-product-form" onsubmit="return handleAddProduct(event);">
+                <div class="form-group">
+                    <label for="product-title">Title</label>
+                    <input type="text" id="product-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="product-description">Description</label>
+                    <textarea id="product-description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="product-price">Price</label>
+                    <input type="number" id="product-price" required min="0">
+                </div>
+                <div class="form-group">
+                    <label for="product-type">Property Type</label>
+                    <select id="product-type">
+                        <option value="residential">Residential</option>
+                        <option value="commercial">Commercial</option>
+                        <option value="land">Land</option>
+                        <option value="industrial">Industrial</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Submit Property</button>
+            </form>
+        </div>
+    </div>
+
+    <section class="featured">
+        <h2 class="section-title">Featured Auctions</h2>
+        <div class="properties" id="properties-container">
+            <!-- Product cards will be added here dynamically -->
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Cyamunara</h3>
+                <p>Rwanda's premier property auction platform connecting buyers and sellers nationwide.</p>
+                <div class="social-links">
+                    <a href="#">F</a>
+                    <a href="#">T</a>
+                    <a href="#">I</a>
+                    <a href="#">L</a>
+                </div>
+            </div>
+
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Browse Auctions</a></li>
+                    <li><a href="#">How It Works</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Auctions</h3>
+                <ul>
+                    <li><a href="#">Residential Properties</a></li>
+                    <li><a href="#">Commercial Properties</a></li>
+                    <li><a href="#">Land Parcels</a></li>
+                    <li><a href="#">Industrial Properties</a></li>
+                    <li><a href="#">Upcoming Auctions</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Contact</h3>
+                <ul>
+                    <li>Kigali Heights, Rwanda</li>
+                    <li>Phone: +250 788 123 456</li>
+                    <li>Email: info@cyamunara.rw</li>
+                </ul>
+                <div class="language-switcher">
+                    <select onchange="translate(this.value);">
+                        <option value="en">English</option>
+                        <option value="rw">Kinyarwanda</option>
+                        <option value="fr">French</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="copyright">
+            &copy; 2025 Cyamunara Rwanda. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        function translate(language) {
+            const translations = {
+                en: {
+                    welcome: "Welcome to Cyamunara",
+                    search: "Search",
+                },
+                rw: {
+                    welcome: "Murakaza neza kuri Cyamunara",
+                    search: "Shakisha",
+                },
+                fr: {
+                    welcome: "Bienvenue à Cyamunara",
+                    search: "Rechercher",
+                }
+            };
+
+            // Example of translating elements on the homepage
+            document.querySelector('h1').textContent = translations[language].welcome || "Welcome to Cyamunara";
+            // Add translations for other elements as needed
+        }
+
+        function handleSearch(event) {
+            event.preventDefault(); // prevent form submission
+            const propertyType = document.getElementById('property-type').value;
+            const location = document.getElementById('location').value;
+            const priceRange = document.getElementById('price-range').value;
+            // Implement search logic (e.g., AJAX call to fetch filtered properties)
+            console.log(`Searching for ${propertyType}, ${location}, ${priceRange}`);
+        }
+
+        function handleAddProduct(event) {
+            event.preventDefault(); // prevent form submission
+            const title = document.getElementById('product-title').value;
+            const description = document.getElementById('product-description').value;
+            const price = document.getElementById('product-price').value;
+            const type = document.getElementById('product-type').value;
+            // Implement logic to add the product (e.g., AJAX call)
+            console.log(`Adding product: ${title}, ${description}, ${price}, ${type}`);
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Sample event listener for mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        // Load and display products
+        function loadProducts() {
+            const products = JSON.parse(localStorage.getItem('cyamunaraProducts')) || [];
+            const propertiesContainer = document.querySelector('.properties');
+            
+            if (!propertiesContainer) return;
+            
+            propertiesContainer.innerHTML = ''; // Clear existing content
+            
+            if (products.length === 0) {
+                propertiesContainer.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 2rem;">
+                        <h3>No properties available</h3>
+                        <p>Be the first to add a property for auction!</p>
+                        <button class="btn" onclick="window.location.href='productadd.html'">Add Property</button>
+                    </div>
+                `;
+                return;
+            }
+
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'property-card';
+                
+                // Use the first image from the product's images array, or a placeholder
+                const imageUrl = product.images && product.images.length > 0 ? 
+                    product.images[0] : '/api/placeholder/400/300';
+                
+                // Create a safe product object for JSON stringification
+                const safeProduct = {
+                    id: product.id,
+                    title: product.title || 'Untitled Property',
+                    description: product.description || 'No description available',
+                    price: product.startingPrice || 0,
+                    image: imageUrl,
+                    location: `${product.district || ''}, ${product.province || ''}`,
+                    startingPrice: product.startingPrice || 0
+                };
+                
+                card.innerHTML = `
+                    <img src="${imageUrl}" alt="${safeProduct.title}">
+                    <div class="property-info">
+                        <h3>${safeProduct.title}</h3>
+                        <p class="price">RWF ${parseFloat(safeProduct.price).toLocaleString()}</p>
+                        <p class="location">${safeProduct.location}</p>
+                        <p class="description">${safeProduct.description}</p>
+                        <div class="property-footer">
+                            <button class="btn" onclick='buyProduct(${JSON.stringify(safeProduct)})'>Buy Now</button>
+                            <button class="btn btn-outline" onclick='addToCart(${JSON.stringify(safeProduct)})'>Add to Cart</button>
+                        </div>
+                    </div>
+                `;
+                
+                propertiesContainer.appendChild(card);
+            });
+        }
+
+        function buyProduct(product) {
+            // Prepare product data for buy page
+            const buyProduct = {
+                id: product.id,
+                title: product.title,
+                description: product.description,
+                price: product.startingPrice,
+                image: product.image,
+                location: product.location
+            };
+            
+            // Store the selected product
+            localStorage.setItem('selectedProduct', JSON.stringify(buyProduct));
+            
+            // Redirect to buy page
+            window.location.href = 'buy.html';
+        }
+
+        function addToCart(product) {
+            // Get existing cart
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            // Check if product already in cart
+            if (!cart.some(item => item.id === product.id)) {
+                cart.push(product);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                alert('Product added to cart! Click the Cart link to view your items.');
+            } else {
+                alert('This product is already in your cart!');
+            }
+        }
+
+        // Load products when page loads
+        document.addEventListener('DOMContentLoaded', loadProducts);
+    </script>
+</body>
+</html>

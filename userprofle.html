@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - Cyamunara Rwanda</title>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <style>
+        :root {
+            --primary-color: #0D8A72;
+            --secondary-color: #F2C94C;
+            --dark-color: #333333;
+            --light-color: #F9F9F9;
+            --accent-color: #D63447;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        .profile-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .profile-header img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+
+        .profile-header h2 {
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .section-title {
+            margin: 2rem 0 1rem;
+            font-size: 1.5rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .card {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .property-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .property-location {
+            color: #777;
+            margin-bottom: 0.3rem;
+        }
+
+        .property-price {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .auction-history {
+            list-style: none;
+            padding: 0;
+        }
+
+        .auction-history li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+
+        .copyright {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <a href="#" class="logo">Cya<span>munara</span></a>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Browse Auctions</a></li>
+                <li><a href="#">How it Works</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Profile</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="profile-container" id="profile">
+        <div class="profile-header">
+            <img id="user-avatar" src="/api/placeholder/100/100" alt="User Avatar">
+            <div>
+                <h2 id="user-name">John Doe</h2>
+                <p id="user-email">Email: johndoe@example.com</p>
+            </div>
+        </div>
+
+        <h3 class="section-title">Listed Properties</h3>
+        <div id="listed-properties"></div>
+
+        <h3 class="section-title">Auction History</h3>
+        <ul id="auction-history" class="auction-history"></ul>
+    </div>
+
+    <footer>
+        <div>Cyamunara Rwanda. All Rights Reserved.</div>
+        <div class="copyright">© 2025 Cyamunara Rwanda</div>
+    </footer>
+
+    <script>
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_APP.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+
+        // Function to fetch user profile and their properties
+        async function fetchUserProfile() {
+            const user = auth.currentUser;
+            if (user) {
+                document.getElementById('user-email').textContent = `Email: ${user.email}`;
+
+                // Fetch user-listed properties from Firestore
+                const propertiesSnapshot = await db.collection('properties').where('userId', '==', user.uid).get();
+                propertiesSnapshot.forEach((doc) => {
+                    const property = doc.data();
+                    const propertyCard = document.createElement('div');
+                    propertyCard.className = 'card';
+                    propertyCard.innerHTML = `
+                        <div class="property-name">${property.title}</div>
+                        <div class="property-location">${property.location}</div>
+                        <div class="property-price">${property.price} RWF</div>
+                    `;
+                    document.getElementById('listed-properties').appendChild(propertyCard);
+                });
+
+                // Fetch auction history
+                const auctionSnapshot = await db.collection('auctions').where('userId', '==', user.uid).get();
+                auctionSnapshot.forEach((doc) => {
+                    const auction = doc.data();
+                    const auctionItem = document.createElement('li');
+                    auctionItem.textContent = `Auction for ${auction.propertyName}: ${auction.status} on ${auction.date}`;
+                    document.getElementById('auction-history').appendChild(auctionItem);
+                });
+            }
+        }
+
+        // Listen for auth state changes
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                fetchUserProfile();
+            } else {
+                window.location.href = 'login.html'; // Redirect to login if not logged in
+            }
+        });
+    </script>
+</body>
+</html>

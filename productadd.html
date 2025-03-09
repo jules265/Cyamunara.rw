@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Your Product - Cyamunara</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #e67e22;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+            --success-color: #27ae60;
+            --error-color: #e74c3c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--secondary-color);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .page-title {
+            background-color: var(--light-color);
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .page-title h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+        }
+        
+        .form-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .form-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        input[type="time"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .photo-upload {
+            border: 2px dashed #ddd;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+        
+        .photo-upload:hover {
+            border-color: var(--secondary-color);
+        }
+        
+        .photo-upload i {
+            font-size: 2rem;
+            color: #999;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .photo-upload p {
+            color: #777;
+        }
+        
+        .uploaded-photos {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .photo-preview {
+            width: 120px;
+            height: 120px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .photo-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+        
+        .photo-preview .remove {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            background-color: var(--error-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #d35400;
+        }
+        
+        .btn-secondary {
+            background-color: #95a5a6;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+        
+        .required:after {
+            content: "*";
+            color: var(--error-color);
+            margin-left: 4px;
+        }
+        
+        .helper-text {
+            font-size: 0.85rem;
+            color: #777;
+            margin-top: 0.3rem;
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-column h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-column ul li a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #4a5c6a;
+            color: #bdc3c7;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+            }
+            
+            nav ul li {
+                margin: 0 0.5rem;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+        }
+        
+        .success-message {
+            background-color: var(--success-color);
+            color: white;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option input {
+            margin-right: 0.5rem;
+            width: auto;
+        }
+        
+        .checkbox-group {
+            margin-top: 0.5rem;
+        }
+        
+        .checkbox-option {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+        
+        .checkbox-option input {
+            margin-right: 0.5rem;
+            margin-top: 0.3rem;
+            width: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">Cyamu<span>nara</span></a>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="#">Categories</a></li>
+                        <li><a href="#">Auctions</a></li>
+                        <li><a href="#">My Account</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    <section class="page-title">
+        <div class="container">
+            <h1>Add Your Product for Auction</h1>
+        </div>
+    </section>
+    
+    <main class="container">
+        <div class="success-message" id="successMessage">
+            Your product has been successfully submitted for auction. <a href="index.html" style="color: white; text-decoration: underline;">Click here</a> to view all products.
+        </div>
+        
+        <div class="form-container">
+            <form id="productForm">
+                <div class="form-section">
+                    <h2>Product Information</h2>
+                    
+                    <div class="form-group">
+                        <label for="productName" class="required">Product Name</label>
+                        <input type="text" id="productName" name="productName" required placeholder="Enter the full name of your product">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="category" class="required">Category</label>
+                        <select id="category" name="category" required>
+                            <option value="">Select a category</option>
+                            <option value="real-estate">Real Estate</option>
+                            <option value="vehicles">Vehicles</option>
+                            <option value="electronics">Electronics</option>
+                            <option value="furniture">Furniture</option>
+                            <option value="agriculture">Agricultural Products</option>
+                            <option value="clothing">Clothing & Accessories</option>
+                            <option value="art">Art & Collectibles</option>
+                            <option value="construction">Construction Materials</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subcategory">Subcategory</label>
+                        <select id="subcategory" name="subcategory">
+                            <option value="">Select a subcategory</option>
+                            <!-- Options will be dynamically loaded based on the selected category -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="condition" class="required">Condition</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="conditionNew" name="condition" value="new" required>
+                                <label for="conditionNew">New</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="conditionUsed" name="condition" value="used">
+                                <label for="conditionUsed">Used</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="conditionRefurbished" name="condition" value="refurbished">
+                                <label for="conditionRefurbished">Refurbished</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="description" class="required">Description</label>
+                        <textarea id="description" name="description" required placeholder="Provide a detailed description of your product, including features, specifications, and any notable details..."></textarea>
+                        <p class="helper-text">Be detailed and honest about the product condition to attract serious buyers.</p>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2>Pricing & Auction Details</h2>
+                    
+                    <div class="form-group">
+                        <label for="startingPrice" class="required">Starting Price (RWF)</label>
+                        <input type="number" id="startingPrice" name="startingPrice" required min="1" placeholder="Enter the starting bid amount">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reservePrice">Reserve Price (RWF)</label>
+                        <input type="number" id="reservePrice" name="reservePrice" min="1" placeholder="Enter the minimum acceptable price (optional)">
+                        <p class="helper-text">The auction won't complete if bids don't reach this price. Leave blank for no reserve.</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="auctionStartDate" class="required">Auction Start Date</label>
+                        <input type="date" id="auctionStartDate" name="auctionStartDate" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="auctionStartTime" class="required">Auction Start Time</label>
+                        <input type="time" id="auctionStartTime" name="auctionStartTime" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="auctionDuration" class="required">Auction Duration</label>
+                        <select id="auctionDuration" name="auctionDuration" required>
+                            <option value="">Select duration</option>
+                            <option value="1">1 Day</option>
+                            <option value="3">3 Days</option>
+                            <option value="5">5 Days</option>
+                            <option value="7">7 Days</option>
+                            <option value="10">10 Days</option>
+                            <option value="14">14 Days</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2>Photos</h2>
+                    <p class="helper-text">Add clear photos of your product from different angles. You can upload up to 10 images.</p>
+                    
+                    <div class="photo-upload" id="photoUpload">
+                        <i>📁</i>
+                        <p>Drag and drop photos here or click to browse</p>
+                        <input type="file" id="photoInput" name="photos[]" multiple accept="image/*" style="display: none;">
+                    </div>
+                    
+                    <div class="uploaded-photos" id="uploadedPhotos">
+                        <!-- Photo previews will be added here dynamically -->
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2>Location</h2>
+                    
+                    <div class="form-group">
+                        <label for="province" class="required">Province</label>
+                        <select id="province" name="province" required>
+                            <option value="">Select Province</option>
+                            <option value="kigali">Kigali City</option>
+                            <option value="north">Northern Province</option>
+                            <option value="south">Southern Province</option>
+                            <option value="east">Eastern Province</option>
+                            <option value="west">Western Province</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="district" class="required">District</label>
+                        <select id="district" name="district" required>
+                            <option value="">Select District</option>
+                            <!-- Will be populated based on province selection -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="sector">Sector</label>
+                        <select id="sector" name="sector">
+                            <option value="">Select Sector</option>
+                            <!-- Will be populated based on district selection -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address">Specific Address (Optional)</label>
+                        <input type="text" id="address" name="address" placeholder="Enter specific location details if needed">
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2>Contact Information</h2>
+                    
+                    <div class="form-group">
+                        <label for="contactName" class="required">Contact Name</label>
+                        <input type="text" id="contactName" name="contactName" required placeholder="Your full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contactPhone" class="required">Phone Number</label>
+                        <input type="text" id="contactPhone" name="contactPhone" required placeholder="e.g., 078xxxxxxx">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contactEmail">Email Address (Optional)</label>
+                        <input type="text" id="contactEmail" name="contactEmail" placeholder="Your email address">
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="showContactInfo" name="showContactInfo" checked>
+                            <label for="showContactInfo">Show my contact information to potential buyers</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2>Terms and Conditions</h2>
+                    
+                    <div class="form-group">
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="termsConditions" name="termsConditions" required>
+                            <label for="termsConditions" class="required">I agree to the <a href="#" target="_blank">Terms and Conditions</a> of Cyamunara</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="productOwnership" name="productOwnership" required>
+                            <label for="productOwnership" class="required">I confirm that I am the legal owner of this product or authorized to sell it</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="accurateInfo" name="accurateInfo" required>
+                            <label for="accurateInfo" class="required">I confirm that all information provided is accurate and complete</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary" id="saveAsDraft">Save as Draft</button>
+                    <button type="submit" class="btn btn-primary">Submit for Auction</button>
+                </div>
+            </form>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>About Cyamunara</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#">Our Team</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Buyer Protection</a></li>
+                        <li><a href="#">Seller Guidelines</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Cookies</a></li>
+                        <li><a href="#">User Agreement</a></li>
+                        <li><a href="#">Prohibited Items</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Cyamunara. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default date to today
+            const today = new Date();
+            const formattedDate = today.toISOString().substr(0, 10);
+            document.getElementById('auctionStartDate').value = formattedDate;
+            
+            // Photo upload functionality
+            const photoUpload = document.getElementById('photoUpload');
+            const photoInput = document.getElementById('photoInput');
+            const uploadedPhotos = document.getElementById('uploadedPhotos');
+            
+            photoUpload.addEventListener('click', function() {
+                photoInput.click();
+            });
+            
+            // Handle file selection
+            photoInput.addEventListener('change', function() {
+                handleFiles(this.files);
+            });
+            
+            // Handle drag and drop
+            photoUpload.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                photoUpload.style.borderColor = 'var(--secondary-color)';
+            });
+            
+            photoUpload.addEventListener('dragleave', function() {
+                photoUpload.style.borderColor = '#ddd';
+            });
+            
+            photoUpload.addEventListener('drop', function(e) {
+                e.preventDefault();
+                photoUpload.style.borderColor = '#ddd';
+                handleFiles(e.dataTransfer.files);
+            });
+            
+            // Process the selected files
+            function handleFiles(files) {
+                if (files.length > 0) {
+                    // Limit to 10 files
+                    const maxFiles = 10;
+                    const filesToProcess = Array.from(files).slice(0, maxFiles);
+                    
+                    filesToProcess.forEach(function(file) {
+                        if (file.type.startsWith('image/')) {
+                            const reader = new FileReader();
+                            
+                            reader.onload = function(e) {
+                                // Create preview element
+                                const preview = document.createElement('div');
+                                preview.className = 'photo-preview';
+                                
+                                // Create image element
+                                const img = document.createElement('img');
+                                img.src = e.target.result;
+                                img.alt = 'Product image';
+                                preview.appendChild(img);
+                                
+                                // Create remove button
+                                const removeBtn = document.createElement('span');
+                                removeBtn.className = 'remove';
+                                removeBtn.textContent = '×';
+                                removeBtn.addEventListener('click', function() {
+                                    preview.remove();
+                                });
+                                preview.appendChild(removeBtn);
+                                
+                                // Add to the container
+                                uploadedPhotos.appendChild(preview);
+                                
+                                // Store the image data in localStorage when we later submit the form
+                            };
+                            
+                            reader.readAsDataURL(file);
+                        }
+                    });
+                }
+            }
+            
+            // Form submission
+            const productForm = document.getElementById('productForm');
+            const successMessage = document.getElementById('successMessage');
+            
+            productForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Check if required fields are filled
+                if (!productForm.checkValidity()) {
+                    return false;
+                }
+                
+                // Collect form data
+                const formData = new FormData(productForm);
+                const productData = {};
+                
+                for (const [key, value] of formData.entries()) {
+                    productData[key] = value;
+                }
+                
+                // Add image data
+                productData.images = [];
+                const imageElements = uploadedPhotos.querySelectorAll('img');
+                imageElements.forEach(function(img) {
+                    productData.images.push(img.src);
+                });
+                
+                // Get existing products or initialize empty array
+                let products = JSON.parse(localStorage.getItem('cyamunaraProducts')) || [];
+                
+                // Add product ID and date
+                productData.id = Date.now();
+                productData.submissionDate = new Date().toISOString();
+                
+                // Add the new product
+                products.push(productData);
+                
+                // Save to localStorage
+                localStorage.setItem('cyamunaraProducts', JSON.stringify(products));
+                
+                // Show success message
+                successMessage.style.display = 'block';
+                
+                // Scroll to the top to show the message
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // Optionally redirect after a delay
+                setTimeout(function() {
+                    window.location.href = 'index.html';
+                }, 3000);
+            });
+            
+            // Save as draft functionality
+            const saveAsDraftBtn = document.getElementById('saveAsDraft');
+            
+            saveAsDraftBtn.addEventListener('click', function() {
+                // Collect form data, similar to submit but with draft status
+                const formData = new FormData(productForm);
+                const draftData = {};
+                
+                for (const [key, value] of formData.entries()) {
+                    draftData[key] = value;
+                }
+                
+                // Add image data
+                draftData.images = [];
+                const imageElements = uploadedPhotos.querySelectorAll('img');
+                imageElements.forEach(function(img) {
+                    draftData.images.push(img.src);
+                });
+                
+                // Mark as draft
+                draftData.status = 'draft';
+                draftData.id = Date.now();
+                
+                // Get existing drafts or initialize empty array
+                let drafts = JSON.parse(localStorage.getItem('cyamunararDrafts')) || [];
+                
+                // Add the new draft
+                drafts.push(draftData);
+                
+                // Save to localStorage
+                localStorage.setItem('cyamunararDrafts', JSON.stringify(drafts));
+                
+                alert('Your product has been saved as a draft. You can complete and submit it later from your account dashboard.');
+            });
+            
+            // Dynamic subcategory population based on category selection
+            const categorySelect = document.getElementById('category');
+            const subcategorySelect = document.getElementById('subcategory');
+            
+            categorySelect.addEventListener('change', function() {
+                // Clear existing options
+                subcategorySelect.innerHTML = '<option value="">Select a subcategory</option>';
+                
+                // Add new options based on selected category
+                const category = this.value;
+                
+                if (category === 'real-estate') {
+                    addSubcategoryOptions(['Houses', 'Land', 'Commercial Property', 'Apartments']);
+                } else if (category === 'vehicles') {
+                    addSubcategoryOptions(['Cars', 'Motorcycles', 'Trucks', 'Buses', 'Spare Parts']);
+                } else if (category === 'electronics') {
+                    addSubcategoryOptions(['Phones & Tablets', 'Computers', 'TV & Audio', 'Home Appliances']);
+                } else if (category === 'furniture') {
+                    addSubcategoryOptions(['Living Room', 'Bedroom', 'Dining Room', 'Office Furniture']);
+                } else if (category === 'agriculture') {
+                    addSubcategoryOptions(['Livestock', 'Crops', 'Equipment', 'Seeds & Fertilizers']);
+                }
+            });
+            
+            function addSubcategoryOptions(subcategories) {
+                subcategories.forEach(function(subcategory) {
+                    const option = document.createElement('option');
+                    option.value = subcategory.toLowerCase().replace(/ /g, '-');
+                    option.textContent = subcategory;
+                    subcategorySelect.appendChild(option);
+                });
+            }
+            
+            // Dynamic district population based on province selection
+            const provinceSelect = document.getElementById('province');
+            const districtSelect = document.getElementById('district');
+            
+            provinceSelect.addEventListener('change', function() {
+                // Clear existing options
+                districtSelect.innerHTML = '<option value="">Select District</option>';
+                
+                // Add new options based on selected province
+                const province = this.value;
+                
+                if (province === 'kigali') {
+                    addDistrictOptions(['Nyarugenge', 'Gasabo', 'Kicukiro']);
+                } else if (province === 'north') {
+                    addDistrictOptions(['Musanze', 'Burera', 'Gakenke', 'Gicumbi', 'Rulindo']);
+                } else if (province === 'south') {
+                    addDistrictOptions(['Huye', 'Gisagara', 'Nyanza', 'Nyamagabe', 'Ruhango', 'Muhanga', 'Kamonyi', 'Nyaruguru']);
+                } else if (province === 'east') {
+                    addDistrictOptions(['Bugesera', 'Gatsibo', 'Kayonza', 'Kirehe', 'Ngoma', 'Nyagatare', 'Rwamagana']);
+                } else if (province === 'west') {
+                    addDistrictOptions(['Karongi', 'Ngororero', 'Nyabihu', 'Nyamasheke', 'Rutsiro', 'Rusizi', 'Rulindo']);
+                }
+            });
+            
+            function addDistrictOptions(districts) {
+                districts.forEach(function(district) {
+                    const option = document.createElement('option');
+                    option.value = district.toLowerCase().replace(/ /g, '-');
+                    option.textContent = district;
+                    districtSelect.appendChild(option);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
