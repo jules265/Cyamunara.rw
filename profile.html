@@ -6,6 +6,7 @@
     <title>User Profile - Cyamunara</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="styles.css">
     <style>
         :root {
             --primary-color: #0D8A72;
@@ -179,6 +180,9 @@
                         <a class="nav-link" href="#security" data-tab="security">
                             <i class="bi bi-shield-lock"></i> Security
                         </a>
+                        <a class="nav-link" href="#activity" data-tab="activity">
+                            <i class="bi bi-clock"></i> Activity
+                        </a>
                         <a class="nav-link text-danger" href="#" onclick="signOut()">
                             <i class="bi bi-box-arrow-right"></i> Sign Out
                         </a>
@@ -298,27 +302,47 @@
                     <!-- Security Tab -->
                     <div class="tab-content d-none" id="security">
                         <h3 class="mb-4">Security Settings</h3>
-                        <form id="passwordForm" class="mb-5">
-                            <h5>Change Password</h5>
-                            <div class="mb-3">
-                                <label class="form-label">Current Password</label>
-                                <input type="password" class="form-control" id="currentPassword">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">Change Password</h5>
+                                <form id="changePasswordForm">
+                                    <div class="mb-3">
+                                        <label for="currentPassword" class="form-label">Current Password</label>
+                                        <input type="password" class="form-control" id="currentPassword" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="newPassword" class="form-label">New Password</label>
+                                        <input type="password" class="form-control" id="newPassword" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                                        <input type="password" class="form-control" id="confirmPassword" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Change Password</button>
+                                </form>
                             </div>
-                            <div class="mb-3">
-                                <label class="form-label">New Password</label>
-                                <input type="password" class="form-control" id="newPassword">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Confirm New Password</label>
-                                <input type="password" class="form-control" id="confirmPassword">
-                            </div>
-                            <button type="submit" class="btn btn-primary">Change Password</button>
-                        </form>
-
+                        </div>
                         <div class="mt-5">
                             <h5 class="text-danger">Danger Zone</h5>
                             <p>Once you delete your account, there is no going back. Please be certain.</p>
                             <button class="btn btn-outline-danger" onclick="confirmDeleteAccount()">Delete Account</button>
+                        </div>
+                    </div>
+
+                    <!-- Activity Tab -->
+                    <div class="tab-content d-none" id="activity">
+                        <h3 class="mb-4">Recent Activity</h3>
+                        <div class="activity-item">
+                            <p><strong>Logged in:</strong> 10 minutes ago</p>
+                        </div>
+                        <div class="activity-item">
+                            <p><strong>Updated profile:</strong> 1 hour ago</p>
+                        </div>
+                        <div class="activity-item">
+                            <p><strong>Changed password:</strong> 2 weeks ago</p>
+                        </div>
+                        <div class="activity-item">
+                            <p><strong>Purchased Property:</strong> 3 days ago</p>
                         </div>
                     </div>
                 </div>
@@ -458,11 +482,8 @@
         });
 
         // Handle password change
-        document.getElementById('passwordForm').addEventListener('submit', async function(e) {
+        document.getElementById('changePasswordForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const user = auth.currentUser;
-            if (!user) return;
-
             const currentPassword = document.getElementById('currentPassword').value;
             const newPassword = document.getElementById('newPassword').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
@@ -473,20 +494,23 @@
             }
 
             try {
+                const user = auth.currentUser;
                 // Reauthenticate user
                 const credential = firebase.auth.EmailAuthProvider.credential(
                     user.email,
                     currentPassword
                 );
                 await user.reauthenticateWithCredential(credential);
-
+                
                 // Update password
                 await user.updatePassword(newPassword);
-                alert('Password changed successfully!');
-                document.getElementById('passwordForm').reset();
+                alert('Password updated successfully!');
+                
+                // Clear form
+                this.reset();
             } catch (error) {
                 console.error('Error changing password:', error);
-                alert('Failed to change password. Please check your current password and try again.');
+                alert(error.message);
             }
         });
 
