@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cyamunara Rwanda - Property Auction Platform</title>
+    <link rel="icon" href="logocopy.png">
     <style>
         :root {
             --primary-color: #0D8A72;
@@ -68,14 +69,29 @@
         }
 
         .nav-links a {
+            position: relative;
             color: white;
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s;
         }
-
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary-color);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
         .nav-links a:hover {
-            color: var(--secondary-color);
+            width: 100%;
+            color: var(--accent-color);
         }
 
         .btn {
@@ -469,11 +485,24 @@
             align-items: center;
             justify-content: center;
             transition: background-color 0.3s, transform 0.3s;
+            animation: 2s up alternate-reverse infinite;
         }
 
         .social-links a:hover {
             background-color: var(--primary-color);
-            transform: translateY(-3px);
+            animation-play-state: paused;
+        }
+        li a:nth-child(1){animation-delay: 0.1s;}
+        li a:nth-child(2){animation-delay: 0.3s;}
+        li a:nth-child(3){animation-delay: 0.6s;}
+        li a:nth-child(4){animation-delay: 0.8s;}
+        @keyframes up{
+            from{
+                transform: translateY(10px);
+            }
+            to{
+                transform: translateY(-10px);
+            }
         }
 
         .copyright {
@@ -482,7 +511,7 @@
             margin-top: 2rem;
             border-top: 1px solid #444;
             font-size: 0.9rem;
-            color: #aaa;
+            color: #d3d0d0;
         }
 
         /* Language Switcher */
@@ -535,6 +564,9 @@
             cursor: pointer;
             color: #777;
             transition: color 0.3s;
+        }
+        .mobile-menu-btn{
+            display: none;
         }
 
         .close-modal:hover {
@@ -670,58 +702,58 @@
 <body>
     <header>
         <nav class="navbar">
-            <a href="index.html" class="logo">Cya<span>munara</span></a>
+            <a href="index.html" class="logo" draggable="true">Cya<span>munara</span></a>
             <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="#featured">Properties</a></li>
-                <li><a href="cart.html">Cart</a></li>
-                <li><a href="profile2.html">Profile</a></li>
-                <li><button class="btn" onclick="openModal('add-product-modal')">Add Property</button></li>
+                <li><a href="index.html" draggable="true">Home</a></li>
+                <li><a href="#featured" draggable="true">Properties</a></li>
+                <li><a href="cart.html" draggable="true">Cart</a></li>
+                <li><a href="profile2.html" draggable="true">Profile</a></li>
+                <li><a class="btn" href="productadd.html" draggable="true">Add Property</a></li>
             </ul>
-            <div class="auth-btns">
-                <a href="login.html" class="btn btn-outline">Login</a>
+            <div class="auth-btns" draggable="true">
+                <a href="login.html" class="btn btn-outline" draggable="true">Login</a>
             </div>
-            <button class="mobile-menu-btn">☰</button>
+            <button class="mobile-menu-btn" draggable="true">☰</button>
         </nav>
     </header>
 
     <section class="hero">
-        <h1>Find Your Property at Rwanda's Premier Auction Platform</h1>
-        <p>Browse thousands of properties available for auction across Rwanda.</p>
+        <h1 draggable="true">Find Your Property at Rwanda's Premier Auction Platform</h1>
+        <p draggable="true">Browse thousands of properties available for auction across Rwanda.</p>
         <div class="search-container">
             <form class="search-form" id="search-form" onsubmit="return handleSearch(event);">
                 <div class="form-group">
-                    <label for="property-type">Property Type</label>
+                    <label for="property-type" draggable="true">Property Type</label>
                     <select id="property-type">
-                        <option value="">All Types</option>
-                        <option value="residential">Residential</option>
-                        <option value="commercial">Commercial</option>
-                        <option value="land">Land</option>
-                        <option value="industrial">Industrial</option>
+                        <option value="" draggable="true">All Types</option>
+                        <option value="residential" draggable="true">Residential</option>
+                        <option value="commercial" draggable="true">Commercial</option>
+                        <option value="land" draggable="true">Land</option>
+                        <option value="industrial" draggable="true">Industrial</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="location">Location</label>
-                    <select id="location">
-                        <option value="">All Locations</option>
-                        <option value="kigali">Kigali</option>
-                        <option value="eastern">Eastern Province</option>
-                        <option value="western">Western Province</option>
-                        <option value="northern">Northern Province</option>
-                        <option value="southern">Southern Province</option>
+                    <label for="location" draggable="true">Location</label>
+                    <select id="location" draggable="true">
+                        <option value="" draggable="true">All Locations</option>
+                        <option value="kigali" draggable="true">Kigali</option>
+                        <option value="eastern" draggable="true">Eastern Province</option>
+                        <option value="western" draggable="true">Western Province</option>
+                        <option value="northern" draggable="true">Northern Province</option>
+                        <option value="southern" draggable="true">Southern Province</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="price-range">Price Range</label>
+                    <label for="price-range" draggable="true">Price Range</label>
                     <select id="price-range">
-                        <option value="">Any Price</option>
-                        <option value="0-10000000">Up to 10,000,000 RWF</option>
-                        <option value="10000000-50000000">10-50 Million RWF</option>
-                        <option value="50000000-100000000">50-100 Million RWF</option>
-                        <option value="100000000+">Above 100 Million RWF</option>
+                        <option value="" draggable="true">Any Price</option>
+                        <option value="0-10000000" draggable="true">Up to 10,000,000 RWF</option>
+                        <option value="10000000-50000000" draggable="true">10-50 Million RWF</option>
+                        <option value="50000000-100000000" draggable="true">50-100 Million RWF</option>
+                        <option value="100000000+" draggable="true">Above 100 Million RWF</option>
                     </select>
                 </div>
-                <button type="submit" class="btn search-btn">Search</button>
+                <button type="submit" class="btn search-btn" draggable="true">Search</button>
             </form>
         </div>
     </section>
@@ -730,7 +762,7 @@
     <div id="register-modal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('register-modal')">×</span>
-            <h2>Register</h2>
+            <h2 draggable="true">Register</h2>
             <form class="auth-form">
                 <div class="form-group">
                     <label for="register-name">Name</label>
@@ -753,37 +785,37 @@
     <div id="add-product-modal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('add-product-modal')">×</span>
-            <h2>Add Your Property</h2>
+            <h2 draggable="true">Add Your Property</h2>
             <form id="add-product-form" onsubmit="return handleAddProduct(event);">
                 <div class="form-group">
-                    <label for="product-title">Title</label>
+                    <label for="product-title" draggable="true">Title</label>
                     <input type="text" id="product-title" required>
                 </div>
                 <div class="form-group">
-                    <label for="product-description">Description</label>
+                    <label for="product-description" draggable="true">Description</label>
                     <textarea id="product-description" required></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="product-price">Price</label>
+                    <label for="product-price" draggable="true">Price</label>
                     <input type="number" id="product-price" required min="0">
                 </div>
                 <div class="form-group">
-                    <label for="product-type">Property Type</label>
+                    <label for="product-type" draggable="true">Property Type</label>
                     <select id="product-type">
-                        <option value="residential">Residential</option>
-                        <option value="commercial">Commercial</option>
-                        <option value="land">Land</option>
-                        <option value="industrial">Industrial</option>
+                        <option value="residential" draggable="true">Residential</option>
+                        <option value="commercial" draggable="true">Commercial</option>
+                        <option value="land" draggable="true">Land</option>
+                        <option value="industrial" draggable="true">Industrial</option>
                     </select>
                 </div>
-                <button type="submit" class="btn">Submit Property</button>
+                <button type="submit" class="btn" draggable="true">Submit Property</button>
             </form>
         </div>
     </div>
 
     <section class="featured">
-        <h2 class="section-title">Featured Auctions</h2>
-        <div class="properties" id="properties-container">
+        <h2 class="section-title" draggable="true">Featured Auctions</h2>
+        <div class="properties" id="properties-container" draggable="true">
             <!-- Product cards will be added here dynamically -->
         </div>
     </section>
@@ -791,56 +823,56 @@
     <footer>
         <div class="footer-container">
             <div class="footer-column">
-                <h3>Cyamunara</h3>
-                <p>Rwanda's premier property auction platform connecting buyers and sellers nationwide.</p>
+                <h3 draggable="true">Cyamunara</h3>
+                <p draggable="true">Rwanda's premier property auction platform connecting buyers and sellers nationwide.</p>
                 <div class="social-links">
-                    <a href="#">F</a>
-                    <a href="#">T</a>
-                    <a href="#">I</a>
-                    <a href="#">L</a>
+                    <a href="#" draggable="true">F</a>
+                    <a href="#"draggable="true">T</a>
+                    <a href="#"draggable="true">I</a>
+                    <a href="#" draggable="true">L</a>
                 </div>
             </div>
 
             <div class="footer-column">
-                <h3>Quick Links</h3>
+                <h3 draggable="true">Quick Links</h3>
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Browse Auctions</a></li>
-                    <li><a href="#">How It Works</a></li>
-                    <li><a href="#">FAQs</a></li>
-                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#" draggable="true">Home</a></li>
+                    <li><a href="#" draggable="true">Browse Auctions</a></li>
+                    <li><a href="#" draggable="true">How It Works</a></li>
+                    <li><a href="#" draggable="true" >FAQs</a></li>
+                    <li><a href="#" draggable="true">Contact Us</a></li>
                 </ul>
             </div>
 
             <div class="footer-column">
-                <h3>Auctions</h3>
+                <h3 draggable="true">Auctions</h3>
                 <ul>
-                    <li><a href="#">Residential Properties</a></li>
-                    <li><a href="#">Commercial Properties</a></li>
-                    <li><a href="#">Land Parcels</a></li>
-                    <li><a href="#">Industrial Properties</a></li>
-                    <li><a href="#">Upcoming Auctions</a></li>
+                    <li><a href="#" draggable="true">Residential Properties</a></li>
+                    <li><a href="#" draggable="true">Commercial Properties</a></li>
+                    <li><a href="#" draggable="true">Land Parcels</a></li>
+                    <li><a href="#" draggable="true">Industrial Properties</a></li>
+                    <li><a href="#" draggable="true">Upcoming Auctions</a></li>
                 </ul>
             </div>
 
             <div class="footer-column">
-                <h3>Contact</h3>
+                <h3 draggable="true">Contact</h3>
                 <ul>
-                    <li>Kigali Heights, Rwanda</li>
-                    <li>Phone: +250 788 123 456</li>
-                    <li>Email: info@cyamunara.rw</li>
+                    <li draggable="true">Rubavu Gisenyi, Rwanda</li>
+                    <li draggable="true">Phone: +250 788 699 190</li>
+                    <li draggable="true">Email: nzizajules202@gmil.com</li>
                 </ul>
                 <div class="language-switcher">
                     <select onchange="translate(this.value);">
-                        <option value="en">English</option>
-                        <option value="rw">Kinyarwanda</option>
-                        <option value="fr">French</option>
+                        <option value="en" draggable="true">English</option>
+                        <option value="rw" draggable="true">Kinyarwanda</option>
+                        <option value="fr" draggable="true">French</option>
                     </select>
                 </div>
             </div>
         </div>
 
-        <div class="copyright">
+        <div class="copyright" draggable="true">
             &copy; 2025 Cyamunara Rwanda. All Rights Reserved.
         </div>
     </footer>
@@ -873,7 +905,7 @@
             const location = document.getElementById('location').value;
             const priceRange = document.getElementById('price-range').value;
             // Implement search logic (e.g., AJAX call to fetch filtered properties)
-            console.log(`Searching for ${propertyType}, ${location}, ${priceRange}`);
+            console.log(`Searching for ${title}, ${propertyType}, ${location}, ${priceRange}`);
         }
 
         function handleAddProduct(event) {
@@ -949,7 +981,7 @@
                 
                 // Use the first image from the product's images array, or a placeholder
                 const imageUrl = product.images && product.images.length > 0 ? 
-                    product.images[0] : '/api/placeholder/400/300';
+                    product.images[0] : 'logo.jpeg';
                 
                 // Create a safe product object for JSON stringification
                 const safeProduct = {

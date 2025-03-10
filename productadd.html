@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Your Product - Cyamunara</title>
+    <link rel="icon" href="logocopy.png">
     <style>
         :root {
-            --primary-color: #2c3e50;
+            --primary-color: #0D8A72;
             --secondary-color: #e67e22;
             --light-color: #ecf0f1;
             --dark-color: #34495e;
@@ -257,7 +258,7 @@
         }
         
         footer {
-            background-color: var(--primary-color);
+            background-color: var(--dark-color);
             color: white;
             padding: 2rem 0;
             margin-top: 3rem;
@@ -376,10 +377,10 @@
                 <nav>
                     <ul>
                         <li><a href="index.html">Home</a></li>
-                        <li><a href="#">Categories</a></li>
-                        <li><a href="#">Auctions</a></li>
-                        <li><a href="#">My Account</a></li>
-                        <li><a href="#">Contact</a></li>
+                <li><a href="#featured">Properties</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="profile2.html">Profile</a></li>
+                <li><a class="btn" href="productadd.html" >Add Property</a></li>
                     </ul>
                 </nav>
             </div>
@@ -868,9 +869,10 @@
                 } else if (province === 'east') {
                     addDistrictOptions(['Bugesera', 'Gatsibo', 'Kayonza', 'Kirehe', 'Ngoma', 'Nyagatare', 'Rwamagana']);
                 } else if (province === 'west') {
-                    addDistrictOptions(['Karongi', 'Ngororero', 'Nyabihu', 'Nyamasheke', 'Rutsiro', 'Rusizi', 'Rulindo']);
+                    addDistrictOptions(['Karongi', 'Ngororero', 'Nyabihu', 'Nyamasheke', 'Rutsiro', 'Rusizi', 'Rulindo', 'Rubavu']);
                 }
             });
+            
             
             function addDistrictOptions(districts) {
                 districts.forEach(function(district) {
